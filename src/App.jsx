@@ -37,7 +37,7 @@ function Home() {
       <nav className="flex justify-between items-center p-6 bg-zinc-900">
 
         <Link to="/" className="text-3xl font-bold text-orange-300">
-          Gatherly
+          The Gatherly
         </Link>
 
         <div className="flex gap-6">
