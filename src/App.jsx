@@ -74,4 +74,4 @@ function Home() {
       {/* HERO */}
       <section className="text-center py-24 px-6">
 
-        <div className="bg-white/10 backdrop-blur-xl rounded-3xl max-w-5xl mx-auto p-10 md:p-20 border border-white/10 shadow-2xl">
+        <div className="bg-white/10 backdrop-blur-xl rounded-3xl max-w-5xl mx-auto p-10 md:p-20 border border-white/10 shadow-2xl>
