@@ -99,10 +99,10 @@ export default function Auth() {
           Login
         </button>
 
-        <button
-          onClick={logout}
-          className="bg-red-500 hover:bg-red-600 py-4 rounded-full"
-        >
+          //<button//
+          //onClick={logout}//
+          //className="bg-red-500 hover:bg-red-600 py-4 rounded-full"//
+        //>//
           Logout
         </button>
 
