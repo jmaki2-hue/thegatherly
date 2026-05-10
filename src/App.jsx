@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
+import Auth from "./Auth";
 
 function Home() {
   const categories = [
@@ -110,6 +111,12 @@ function Home() {
           ))}
 
         </div>
+
+      </section>
+
+      <section className="py-20 px-6">
+
+      <Auth />
 
       </section>
 
