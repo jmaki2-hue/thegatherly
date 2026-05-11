@@ -384,46 +384,42 @@ function App() {
 
   return (
 
-    <BrowserRouter>
+    <Routes>
 
-      <Routes>
+      <Route path="/" element={<Home />} />
 
-        <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
 
-        <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
 
-        <Route path="/signup" element={<Signup />} />
+      <Route path="/dashboard" element={<Dashboard />} />
 
-        <Route path="/dashboard" element={<Dashboard />} />
+      <Route
+        path="/family-dinner"
+        element={<PlaceholderPage title="Family Dinner Venues" />}
+      />
 
-        <Route
-          path="/family-dinner"
-          element={<PlaceholderPage title="Family Dinner Venues" />}
-        />
+      <Route
+        path="/friends-hangout"
+        element={<PlaceholderPage title="Friends Hangout Venues" />}
+      />
 
-        <Route
-          path="/friends-hangout"
-          element={<PlaceholderPage title="Friends Hangout Venues" />}
-        />
+      <Route
+        path="/social-seating"
+        element={<PlaceholderPage title="Meet New People" />}
+      />
 
-        <Route
-          path="/social-seating"
-          element={<PlaceholderPage title="Meet New People" />}
-        />
+      <Route
+        path="/profile"
+        element={<PlaceholderPage title="My Profile" />}
+      />
 
-        <Route
-          path="/profile"
-          element={<PlaceholderPage title="My Profile" />}
-        />
+      <Route
+        path="/subscribe"
+        element={<PlaceholderPage title="Subscription Plans" />}
+      />
 
-        <Route
-          path="/subscribe"
-          element={<PlaceholderPage title="Subscription Plans" />}
-        />
-
-      </Routes>
-
-    </BrowserRouter>
+    </Routes>
 
   );
 
