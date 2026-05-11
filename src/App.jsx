@@ -1,203 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Routes,
-  Route,
+ Route,
   Link,
   useNavigate,
 } from "react-router-dom";
 
-function Home() {
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 
-  const navigate = useNavigate();
+import { auth } from "./firebase";
+
+/* LANDING PAGE */
+function LandingPage() {
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex flex-col">
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
 
-      {/* NAVBAR */}
-      <nav className="bg-zinc-900 p-6 flex justify-between items-center">
+      <div className="bg-zinc-900 p-12 rounded-3xl max-w-2xl text-center shadow-2xl">
 
-        <h1 className="text-4xl font-bold text-orange-300">
+        <h1 className="text-6xl font-bold text-orange-300 mb-8">
           The Gatherly
         </h1>
 
-        <div className="flex gap-6">
+        <p className="text-gray-300 text-xl mb-10">
+          Meaningful dinners, social experiences,
+          curated hangouts, and unforgettable connections.
+        </p>
 
-          <button
-            onClick={() => navigate("/login")}
-            onKeyDown={(e) => {
+        <div className="flex justify-center gap-6 flex-wrap">
 
-              if (e.key === "Enter") {
-
-                navigate("/login");
-
-              }
-
-            }}
-            className="hover:text-orange-300"
+          <Link
+            to="/login"
+            className="bg-orange-400 hover:bg-orange-500 px-10 py-4 rounded-full text-black font-semibold"
           >
             Login
-          </button>
+          </Link>
 
-          <button
-            onClick={() => navigate("/signup")}
-            onKeyDown={(e) => {
-
-              if (e.key === "Enter") {
-
-                navigate("/signup");
-
-              }
-
-            }}
-            className="hover:text-orange-300"
+          <Link
+            to="/signup"
+            className="bg-zinc-700 hover:bg-zinc-600 px-10 py-4 rounded-full"
           >
             Sign Up
-          </button>
-
-        </div>
-
-      </nav>
-
-      {/* HERO */}
-      <div className="flex-1 flex flex-col justify-center items-center px-6 text-center">
-
-        <h1 className="text-6xl md:text-7xl font-bold text-orange-300 mb-8">
-          Welcome to The Gatherly
-        </h1>
-
-        <p className="text-xl text-gray-300 max-w-3xl leading-relaxed">
-          Curated dining experiences,
-          premium social spaces,
-          meaningful conversations,
-          and unforgettable moments.
-        </p>
-
-      </div>
-
-    </div>
-
-  );
-
-}
-
-function Login() {
-
-  const navigate = useNavigate();
-
-  return (
-
-    <div className="min-h-screen bg-black flex justify-center items-center px-6">
-
-      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-md shadow-2xl">
-
-        <h1 className="text-4xl font-bold text-orange-300 mb-8 text-center">
-          Login
-        </h1>
-
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-4 rounded-xl bg-zinc-800 text-white mb-5"
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-4 rounded-xl bg-zinc-800 text-white mb-8"
-        />
-
-        <button
-          onClick={() => navigate("/dashboard")}
-          onKeyDown={(e) => {
-
-            if (e.key === "Enter") {
-
-              navigate("/dashboard");
-
-            }
-
-          }}
-          className="w-full bg-orange-400 hover:bg-orange-500 text-black font-bold py-4 rounded-full text-lg"
-        >
-          Login
-        </button>
-
-        <p className="text-center text-gray-400 mt-6">
-          No account yet?
-        </p>
-
-        <button
-          onClick={() => navigate("/signup")}
-          className="w-full mt-4 border border-orange-300 text-orange-300 py-3 rounded-full"
-        >
-          Create Account
-        </button>
-
-      </div>
-
-    </div>
-
-  );
-
-}
-
-function Signup() {
-
-  const navigate = useNavigate();
-
-  return (
-
-    <div className="min-h-screen bg-black flex justify-center items-center px-6">
-
-      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-lg shadow-2xl">
-
-        <h1 className="text-4xl font-bold text-orange-300 mb-8 text-center">
-          Sign Up
-        </h1>
-
-        <div className="grid gap-4">
-
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="p-4 rounded-xl bg-zinc-800 text-white"
-          />
-
-          <input
-            type="email"
-            placeholder="Email"
-            className="p-4 rounded-xl bg-zinc-800 text-white"
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            className="p-4 rounded-xl bg-zinc-800 text-white"
-          />
-
-          <input
-            type="text"
-            placeholder="Contact Number"
-            className="p-4 rounded-xl bg-zinc-800 text-white"
-          />
-
-          <button
-            onClick={() => navigate("/dashboard")}
-            onKeyDown={(e) => {
-
-              if (e.key === "Enter") {
-
-                navigate("/dashboard");
-
-              }
-
-            }}
-            className="bg-orange-400 hover:bg-orange-500 text-black font-bold py-4 rounded-full text-lg mt-4"
-          >
-            Create Account
-          </button>
+          </Link>
 
         </div>
 
@@ -209,19 +59,15 @@ function Signup() {
 
 }
 
+/* DASHBOARD */
 function Dashboard() {
 
-  const navigate = useNavigate();
-
   const categories = [
-
     {
       title: "Family Dinner",
       image:
         "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop",
       path: "/family-dinner",
-      desc:
-        "Premium restaurants and cozy spaces for unforgettable family bonding.",
     },
 
     {
@@ -229,8 +75,6 @@ function Dashboard() {
       image:
         "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1200&auto=format&fit=crop",
       path: "/friends-hangout",
-      desc:
-        "Reconnect with old friends through cafés and lounges.",
     },
 
     {
@@ -238,58 +82,36 @@ function Dashboard() {
       image:
         "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1200&auto=format&fit=crop",
       path: "/social-seating",
-      desc:
-        "Meet strangers naturally through curated social tables.",
     },
-
   ];
-
-  const handleKey = (e, path) => {
-
-    if (e.key === "Enter") {
-
-      navigate(path);
-
-    }
-
-  };
 
   return (
 
     <div className="min-h-screen bg-black text-white">
 
       {/* NAVBAR */}
-      <nav className="bg-zinc-900 p-6 flex justify-between items-center flex-wrap gap-4">
+      <nav className="flex justify-between items-center p-6 bg-zinc-900 sticky top-0 z-50 flex-wrap gap-4">
 
         <Link
           to="/dashboard"
-          className="text-4xl font-bold text-orange-300"
+          className="text-3xl font-bold text-orange-300"
         >
           The Gatherly
         </Link>
 
-        <div className="flex gap-6 flex-wrap items-center">
+        <div className="flex gap-6 items-center flex-wrap">
 
-          <Link to="/profile" className="hover:text-orange-300">
+          <Link to="/profile">
             Profile
           </Link>
 
-          <Link to="/subscribe" className="hover:text-orange-300">
+          <Link to="/subscribe">
             Subscribe
           </Link>
 
-          <button
-            onClick={() => {
-
-              alert("Logged out successfully.");
-
-              navigate("/login");
-
-            }}
-            className="hover:text-orange-300"
-          >
+          <Link to="/login">
             Logout
-          </button>
+          </Link>
 
         </div>
 
@@ -298,32 +120,32 @@ function Dashboard() {
       {/* HERO */}
       <section className="text-center py-24 px-6">
 
-        <h1 className="text-6xl md:text-7xl font-bold text-orange-300 mb-8">
-          Welcome to The Gatherly
-        </h1>
+        <div className="bg-zinc-900 rounded-3xl max-w-5xl mx-auto p-10 shadow-2xl">
 
-        <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-          Discover curated venues,
-          unforgettable experiences,
-          and meaningful connections.
-        </p>
+          <h1 className="text-6xl font-bold mb-8 text-orange-300">
+            Welcome to Gatherly
+          </h1>
+
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Curated venues, social experiences,
+            premium dining, and authentic connections.
+          </p>
+
+        </div>
 
       </section>
 
-      {/* CATEGORY CARDS */}
-      <section className="max-w-7xl mx-auto px-6 pb-24">
+      {/* CATEGORIES */}
+      <section className="max-w-7xl mx-auto px-6 py-20">
 
         <div className="grid md:grid-cols-3 gap-10">
 
           {categories.map((item, index) => (
 
-            <div
+            <Link
               key={index}
-              role="button"
-              tabIndex={0}
-              onClick={() => navigate(item.path)}
-              onKeyDown={(e) => handleKey(e, item.path)}
-              className="bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer hover:scale-105 transition shadow-2xl"
+              to={item.path}
+              className="bg-zinc-900 rounded-3xl overflow-hidden hover:scale-105 transition duration-300 shadow-2xl"
             >
 
               <img
@@ -338,19 +160,9 @@ function Dashboard() {
                   {item.title}
                 </h3>
 
-                <p className="text-gray-300 mb-8">
-                  {item.desc}
-                </p>
-
-                <button
-                  className="bg-orange-400 hover:bg-orange-500 text-black px-8 py-3 rounded-full font-bold"
-                >
-                  Explore
-                </button>
-
               </div>
 
-            </div>
+            </Link>
 
           ))}
 
@@ -358,21 +170,104 @@ function Dashboard() {
 
       </section>
 
+      <Footer />
+
     </div>
 
   );
 
 }
 
-function PlaceholderPage({ title }) {
+/* LOGIN PAGE */
+function LoginPage() {
+
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = async () => {
+
+    try {
+
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      navigate("/dashboard");
+
+    } catch (error) {
+
+      alert(error.message);
+
+    }
+
+  };
+
+  const forgotPassword = async () => {
+
+    if (!email) {
+
+      alert("Enter your email first.");
+      return;
+
+    }
+
+    try {
+
+      await sendPasswordResetEmail(auth, email);
+
+      alert("Password reset email sent.");
+
+    } catch (error) {
+
+      alert(error.message);
+
+    }
+
+  };
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex justify-center items-center">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6">
 
-      <h1 className="text-5xl font-bold text-orange-300">
-        {title}
-      </h1>
+      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-md shadow-2xl">
+
+        <h1 className="text-4xl font-bold text-orange-300 text-center mb-8">
+          Login
+        </h1>
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full p-4 rounded-xl mb-4 text-black"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-4 rounded-xl mb-6 text-black"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button
+          onClick={login}
+          className="w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black font-semibold"
+        >
+          Login
+        </button>
+
+        <button
+          onClick={forgotPassword}
+          className="mt-6 text-gray-400 hover:text-orange-300"
+        >
+          Forgot Password?
+        </button>
+
+      </div>
 
     </div>
 
@@ -380,43 +275,381 @@ function PlaceholderPage({ title }) {
 
 }
 
-function App() {
+/* SIGNUP PAGE */
+function SignupPage() {
+
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    name: "",
+    gender: "",
+    dob: "",
+    address: "",
+    contact: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+
+  };
+
+  const signup = async () => {
+
+    if (form.password !== form.confirmPassword) {
+
+      alert("Passwords do not match.");
+      return;
+
+    }
+
+    try {
+
+      await createUserWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password
+      );
+
+      alert("Account created!");
+
+      navigate("/dashboard");
+
+    } catch (error) {
+
+      alert(error.message);
+
+    }
+
+  };
+
+  return (
+
+    <div className="min-h-screen bg-black flex items-center justify-center px-6 py-20">
+
+      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-2xl shadow-2xl">
+
+        <h1 className="text-4xl font-bold text-orange-300 text-center mb-10">
+          Create Account
+        </h1>
+
+        <div className="grid md:grid-cols-2 gap-4">
+
+          <input name="name" placeholder="Full Name" className="p-4 rounded-xl text-black" onChange={handleChange} />
+
+          <input name="gender" placeholder="Gender" className="p-4 rounded-xl text-black" onChange={handleChange} />
+
+          <input type="date" name="dob" className="p-4 rounded-xl text-black" onChange={handleChange} />
+
+          <input name="contact" placeholder="Contact Number" className="p-4 rounded-xl text-black" onChange={handleChange} />
+
+          <input name="address" placeholder="Address" className="p-4 rounded-xl text-black md:col-span-2" onChange={handleChange} />
+
+          <input type="email" name="email" placeholder="Email Address" className="p-4 rounded-xl text-black md:col-span-2" onChange={handleChange} />
+
+          <input type="password" name="password" placeholder="New Password" className="p-4 rounded-xl text-black" onChange={handleChange} />
+
+          <input type="password" name="confirmPassword" placeholder="Verify Password" className="p-4 rounded-xl text-black" onChange={handleChange} />
+
+        </div>
+
+        <button
+          onClick={signup}
+          className="w-full mt-8 bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black font-semibold"
+        >
+          Register
+        </button>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
+/* PROFILE */
+function ProfilePage() {
+
+  const [editing, setEditing] = useState(false);
+
+  const [profile, setProfile] = useState({
+    name: "John Doe",
+    email: "johndoe@email.com",
+    address: "California, USA",
+    contact: "+1 234 567 890",
+  });
+
+  const handleChange = (e) => {
+
+    setProfile({
+      ...profile,
+      [e.target.name]: e.target.value,
+    });
+
+  };
+
+  return (
+
+    <div className="min-h-screen bg-black text-white px-6 py-20">
+
+      <div className="max-w-3xl mx-auto bg-zinc-900 rounded-3xl p-10 shadow-2xl">
+
+        <h1 className="text-5xl font-bold text-orange-300 mb-10">
+          My Profile
+        </h1>
+
+        <div className="space-y-6">
+
+          <input
+            name="name"
+            value={profile.name}
+            disabled={!editing}
+            onChange={handleChange}
+            className="w-full p-4 rounded-xl text-black"
+          />
+
+          <input
+            name="email"
+            value={profile.email}
+            disabled={!editing}
+            onChange={handleChange}
+            className="w-full p-4 rounded-xl text-black"
+          />
+
+          <input
+            name="address"
+            value={profile.address}
+            disabled={!editing}
+            onChange={handleChange}
+            className="w-full p-4 rounded-xl text-black"
+          />
+
+          <input
+            name="contact"
+            value={profile.contact}
+            disabled={!editing}
+            onChange={handleChange}
+            className="w-full p-4 rounded-xl text-black"
+          />
+
+        </div>
+
+        <button
+          onClick={() => setEditing(!editing)}
+          className="mt-8 bg-orange-400 hover:bg-orange-500 px-8 py-4 rounded-full text-black font-semibold"
+        >
+          {editing ? "Save Profile" : "Edit Profile"}
+        </button>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
+/* SUBSCRIBE */
+function SubscribePage() {
+
+  return (
+
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+
+      <div className="bg-zinc-900 p-10 rounded-3xl max-w-xl text-center">
+
+        <h1 className="text-5xl font-bold text-orange-300 mb-8">
+          Become a Subscriber
+        </h1>
+
+        <p className="text-gray-300 mb-10">
+          Unlock unlimited reservations and exclusive venues.
+        </p>
+
+        <button className="bg-orange-400 hover:bg-orange-500 px-10 py-5 rounded-full text-black font-semibold">
+          Subscribe Now
+        </button>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
+/* SIMPLE PAGES */
+function InfoPage({ title, content }) {
+
+  return (
+
+    <div className="min-h-screen bg-black text-white px-6 py-20">
+
+      <div className="max-w-4xl mx-auto bg-zinc-900 rounded-3xl p-10">
+
+        <h1 className="text-5xl font-bold text-orange-300 mb-8">
+          {title}
+        </h1>
+
+        <p className="text-gray-300 leading-relaxed text-lg">
+          {content}
+        </p>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
+/* FOOTER */
+function Footer() {
+
+  return (
+
+    <footer className="bg-zinc-950 text-gray-400 px-6 py-16 mt-20">
+
+      <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
+
+        <div>
+
+          <h3 className="text-orange-300 text-2xl font-bold mb-4">
+            The Gatherly
+          </h3>
+
+          <p>
+            Premium social experiences and curated dining.
+          </p>
+
+        </div>
+
+        <div>
+
+          <h4 className="text-white font-semibold mb-4">
+            Contact Us
+          </h4>
+
+          <p>Phone: +1 234 567 890</p>
+          <p>Email: hello@gatherly.com</p>
+          <p>California, USA</p>
+
+        </div>
+
+        <div>
+
+          <h4 className="text-white font-semibold mb-4">
+            Explore
+          </h4>
+
+          <div className="space-y-2 flex flex-col">
+
+            <Link to="/our-story">Our Story</Link>
+
+            <Link to="/terms">
+              Terms & Conditions
+            </Link>
+
+            <Link to="/faq">
+              FAQs
+            </Link>
+
+          </div>
+
+        </div>
+
+        <div>
+
+          <h4 className="text-white font-semibold mb-4">
+            Socials
+          </h4>
+
+          <div className="space-y-2 flex flex-col">
+
+            <a href="https://facebook.com" target="_blank">
+              Facebook
+            </a>
+
+            <a href="https://instagram.com" target="_blank">
+              Instagram
+            </a>
+
+            <a href="https://tiktok.com" target="_blank">
+              TikTok
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="text-center mt-16 border-t border-zinc-800 pt-8">
+
+        © 2026 The Gatherly. All Rights Reserved.
+
+      </div>
+
+    </footer>
+
+  );
+
+}
+
+/* APP */
+export default function App() {
 
   return (
 
     <Routes>
 
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<LandingPage />} />
 
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<LoginPage />} />
 
-      <Route path="/signup" element={<Signup />} />
+      <Route path="/signup" element={<SignupPage />} />
 
       <Route path="/dashboard" element={<Dashboard />} />
 
+      <Route path="/profile" element={<ProfilePage />} />
+
+      <Route path="/subscribe" element={<SubscribePage />} />
+
       <Route
-        path="/family-dinner"
-        element={<PlaceholderPage title="Family Dinner Venues" />}
+        path="/our-story"
+        element={
+          <InfoPage
+            title="Our Story"
+            content="The Gatherly was created to bring people together through curated dining and social experiences."
+          />
+        }
       />
 
       <Route
-        path="/friends-hangout"
-        element={<PlaceholderPage title="Friends Hangout Venues" />}
+        path="/terms"
+        element={
+          <InfoPage
+            title="Terms & Conditions"
+            content="By using The Gatherly, users agree to our reservation and membership policies."
+          />
+        }
       />
 
       <Route
-        path="/social-seating"
-        element={<PlaceholderPage title="Meet New People" />}
-      />
-
-      <Route
-        path="/profile"
-        element={<PlaceholderPage title="My Profile" />}
-      />
-
-      <Route
-        path="/subscribe"
-        element={<PlaceholderPage title="Subscription Plans" />}
+        path="/faq"
+        element={
+          <InfoPage
+            title="Frequently Asked Questions"
+            content="Find answers about reservations, memberships, payments, and social seating experiences."
+          />
+        }
       />
 
     </Routes>
@@ -424,5 +657,3 @@ function App() {
   );
 
 }
-
-export default App;
