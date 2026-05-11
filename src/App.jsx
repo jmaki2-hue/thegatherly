@@ -15,43 +15,150 @@ import {
 
 import { auth } from "./firebase";
 
-/* LANDING PAGE */
-function LandingPage() {
+/* HOME PAGE */
+function HomePage() {
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+    <div className="min-h-screen bg-black text-white">
 
-      <div className="bg-zinc-900 p-12 rounded-3xl max-w-2xl text-center shadow-2xl">
+      {/* HERO */}
+      <section
+        className="min-h-screen bg-cover bg-center flex items-center justify-center px-6"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=2070&auto=format&fit=crop')",
+        }}
+      >
 
-        <h1 className="text-6xl font-bold text-orange-300 mb-8">
-          The Gatherly
-        </h1>
+        <div className="bg-black/70 p-10 md:p-16 rounded-3xl max-w-5xl text-center backdrop-blur-md">
 
-        <p className="text-gray-300 text-xl mb-10">
-          Meaningful dinners, social experiences,
-          curated hangouts, and unforgettable connections.
-        </p>
+          <h1 className="text-5xl md:text-7xl font-bold text-orange-300 mb-8">
+            The Gatherly
+          </h1>
 
-        <div className="flex justify-center gap-6 flex-wrap">
+          <p className="text-lg md:text-2xl text-gray-200 leading-relaxed mb-10">
+            Curated restaurants, social experiences,
+            premium hangouts, and meaningful connections.
+          </p>
 
-          <Link
-            to="/login"
-            className="bg-orange-400 hover:bg-orange-500 px-10 py-4 rounded-full text-black font-semibold"
-          >
-            Login
+          <div className="flex justify-center gap-5 flex-wrap">
+
+            <Link
+              to="/login"
+              className="bg-orange-400 hover:bg-orange-500 px-8 py-4 rounded-full text-black font-semibold text-lg"
+            >
+              Login
+            </Link>
+
+            <Link
+              to="/signup"
+              className="bg-zinc-700 hover:bg-zinc-600 px-8 py-4 rounded-full text-lg"
+            >
+              Sign Up
+            </Link>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* CATEGORIES */}
+      <section className="max-w-7xl mx-auto px-6 py-20">
+
+        <h2 className="text-5xl font-bold text-center mb-16 text-orange-300">
+          Explore Experiences
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-10">
+
+          {/* FAMILY */}
+          <Link to="/login">
+
+            <div className="bg-zinc-900 rounded-3xl overflow-hidden hover:scale-105 transition duration-300 shadow-2xl">
+
+              <img
+                src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop"
+                className="w-full h-72 object-cover"
+              />
+
+              <div className="p-8">
+
+                <h3 className="text-3xl font-bold mb-4">
+                  Family Dinner
+                </h3>
+
+                <p className="text-gray-300">
+                  Cozy venues and premium restaurants
+                  for family bonding moments.
+                </p>
+
+              </div>
+
+            </div>
+
           </Link>
 
-          <Link
-            to="/signup"
-            className="bg-zinc-700 hover:bg-zinc-600 px-10 py-4 rounded-full"
-          >
-            Sign Up
+          {/* FRIENDS */}
+          <Link to="/login">
+
+            <div className="bg-zinc-900 rounded-3xl overflow-hidden hover:scale-105 transition duration-300 shadow-2xl">
+
+              <img
+                src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1200&auto=format&fit=crop"
+                className="w-full h-72 object-cover"
+              />
+
+              <div className="p-8">
+
+                <h3 className="text-3xl font-bold mb-4">
+                  Friends Hangout
+                </h3>
+
+                <p className="text-gray-300">
+                  Reconnect with friends through cafés,
+                  lounges, and relaxing venues.
+                </p>
+
+              </div>
+
+            </div>
+
+          </Link>
+
+          {/* SOCIAL */}
+          <Link to="/login">
+
+            <div className="bg-zinc-900 rounded-3xl overflow-hidden hover:scale-105 transition duration-300 shadow-2xl">
+
+              <img
+                src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1200&auto=format&fit=crop"
+                className="w-full h-72 object-cover"
+              />
+
+              <div className="p-8">
+
+                <h3 className="text-3xl font-bold mb-4">
+                  Meet New People
+                </h3>
+
+                <p className="text-gray-300">
+                  Join curated social seating experiences
+                  and meet strangers naturally.
+                </p>
+
+              </div>
+
+            </div>
+
           </Link>
 
         </div>
 
-      </div>
+      </section>
+
+      <Footer />
 
     </div>
 
@@ -59,7 +166,7 @@ function LandingPage() {
 
 }
 
-/* LOGIN PAGE */
+/* LOGIN */
 function LoginPage() {
 
   const navigate = useNavigate();
@@ -94,7 +201,7 @@ function LoginPage() {
 
     if (!email) {
 
-      alert("Please enter your email first.");
+      alert("Please enter your email.");
       return;
 
     }
@@ -117,7 +224,7 @@ function LoginPage() {
 
     <div className="min-h-screen bg-black flex items-center justify-center px-6">
 
-      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-md shadow-2xl">
+      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-md">
 
         <h1 className="text-5xl font-bold text-orange-300 text-center mb-10">
           Login
@@ -126,14 +233,14 @@ function LoginPage() {
         <input
           type="email"
           placeholder="Email"
-          className="w-full p-5 rounded-2xl mb-5 text-white bg-zinc-800"
+          className="w-full p-5 rounded-2xl mb-5 bg-zinc-800 text-white"
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
           type="password"
           placeholder="Password"
-          className="w-full p-5 rounded-2xl mb-6 text-white bg-zinc-800"
+          className="w-full p-5 rounded-2xl mb-6 bg-zinc-800 text-white"
           onChange={(e) => setPassword(e.target.value)}
         />
 
@@ -148,7 +255,7 @@ function LoginPage() {
           onClick={forgotPassword}
           className="mt-6 text-gray-400 hover:text-orange-300"
         >
-          Having trouble signing in? Forgot Password
+          Forgot Password?
         </button>
 
       </div>
@@ -159,7 +266,7 @@ function LoginPage() {
 
 }
 
-/* SIGNUP PAGE */
+/* SIGNUP */
 function SignupPage() {
 
   const navigate = useNavigate();
@@ -201,7 +308,7 @@ function SignupPage() {
         form.password
       );
 
-      alert("Account created successfully!");
+      alert("Account created!");
 
       navigate("/dashboard");
 
@@ -217,10 +324,10 @@ function SignupPage() {
 
     <div className="min-h-screen bg-black flex items-center justify-center px-6 py-20">
 
-      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-2xl shadow-2xl">
+      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-2xl">
 
         <h1 className="text-5xl font-bold text-orange-300 text-center mb-10">
-          Create Account
+          Sign Up
         </h1>
 
         <div className="grid md:grid-cols-2 gap-4">
@@ -263,7 +370,7 @@ function SignupPage() {
           <input
             type="email"
             name="email"
-            placeholder="Email Address"
+            placeholder="Email"
             className="p-4 rounded-2xl bg-zinc-800 text-white md:col-span-2"
             onChange={handleChange}
           />
@@ -271,7 +378,7 @@ function SignupPage() {
           <input
             type="password"
             name="password"
-            placeholder="New Password"
+            placeholder="Password"
             className="p-4 rounded-2xl bg-zinc-800 text-white"
             onChange={handleChange}
           />
@@ -279,7 +386,7 @@ function SignupPage() {
           <input
             type="password"
             name="confirmPassword"
-            placeholder="Verify Password"
+            placeholder="Confirm Password"
             className="p-4 rounded-2xl bg-zinc-800 text-white"
             onChange={handleChange}
           />
@@ -290,7 +397,7 @@ function SignupPage() {
           onClick={signup}
           className="w-full mt-8 bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black font-semibold text-lg"
         >
-          Register Account
+          Create Account
         </button>
 
       </div>
@@ -301,216 +408,73 @@ function SignupPage() {
 
 }
 
-/* PROFILE PAGE */
-function ProfilePage() {
+/* VENUES */
+function VenuePage({ title }) {
 
-  const navigate = useNavigate();
+  const venues = [
 
-  const [editing, setEditing] = useState(false);
+    {
+      name: "Luna Bistro",
+      image:
+        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop",
+    },
 
-  const [saved, setSaved] = useState(false);
+    {
+      name: "Golden Fork",
+      image:
+        "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1200&auto=format&fit=crop",
+    },
 
-  const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "johndoe@email.com",
-    address: "California, USA",
-    contact: "+1 234 567 890",
-  });
+    {
+      name: "River Lounge",
+      image:
+        "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1200&auto=format&fit=crop",
+    },
 
-  const handleChange = (e) => {
-
-    setProfile({
-      ...profile,
-      [e.target.name]: e.target.value,
-    });
-
-  };
-
-  const saveProfile = () => {
-
-    setEditing(false);
-
-    setSaved(true);
-
-    setTimeout(() => {
-
-      setSaved(false);
-
-    }, 3000);
-
-  };
+  ];
 
   return (
 
     <div className="min-h-screen bg-black text-white px-6 py-20">
 
-      <div className="max-w-4xl mx-auto bg-zinc-900 rounded-3xl p-10 shadow-2xl relative">
+      <h1 className="text-5xl font-bold text-orange-300 text-center mb-16">
+        {title}
+      </h1>
 
-        {saved && (
+      <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
 
-          <div className="absolute top-6 right-6 bg-green-500 text-black px-5 py-3 rounded-full font-semibold">
-            Profile Updated Successfully
-          </div>
+        {venues.map((venue, index) => (
 
-        )}
+          <div
+            key={index}
+            className="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl"
+          >
 
-        <button
-          onClick={() => navigate(-1)}
-          className="mb-8 text-orange-300 hover:text-orange-400 text-lg"
-        >
-          ← Back
-        </button>
-
-        <h1 className="text-6xl font-bold text-orange-300 mb-12">
-          My Profile
-        </h1>
-
-        <div className="space-y-8">
-
-          <div>
-
-            <label className="block text-gray-300 mb-2">
-              Full Name
-            </label>
-
-            <input
-              name="name"
-              value={profile.name}
-              disabled={!editing}
-              onChange={handleChange}
-              className={`w-full p-5 rounded-2xl border bg-zinc-800 text-white ${
-                editing
-                  ? "border-orange-400"
-                  : "border-zinc-700"
-              }`}
+            <img
+              src={venue.image}
+              className="w-full h-72 object-cover"
             />
 
-          </div>
+            <div className="p-8">
 
-          <div>
+              <h3 className="text-3xl font-bold mb-4">
+                {venue.name}
+              </h3>
 
-            <label className="block text-gray-300 mb-2">
-              Email Address
-            </label>
+              <button
+                onClick={() =>
+                  alert("Reservation Confirmed!")
+                }
+                className="bg-orange-400 hover:bg-orange-500 px-8 py-3 rounded-full text-black font-semibold"
+              >
+                Book Venue
+              </button>
 
-            <input
-              name="email"
-              value={profile.email}
-              disabled={!editing}
-              onChange={handleChange}
-              className={`w-full p-5 rounded-2xl border bg-zinc-800 text-white ${
-                editing
-                  ? "border-orange-400"
-                  : "border-zinc-700"
-              }`}
-            />
+            </div>
 
           </div>
 
-          <div>
-
-            <label className="block text-gray-300 mb-2">
-              Address
-            </label>
-
-            <input
-              name="address"
-              value={profile.address}
-              disabled={!editing}
-              onChange={handleChange}
-              className={`w-full p-5 rounded-2xl border bg-zinc-800 text-white ${
-                editing
-                  ? "border-orange-400"
-                  : "border-zinc-700"
-              }`}
-            />
-
-          </div>
-
-          <div>
-
-            <label className="block text-gray-300 mb-2">
-              Contact Number
-            </label>
-
-            <input
-              name="contact"
-              value={profile.contact}
-              disabled={!editing}
-              onChange={handleChange}
-              className={`w-full p-5 rounded-2xl border bg-zinc-800 text-white ${
-                editing
-                  ? "border-orange-400"
-                  : "border-zinc-700"
-              }`}
-            />
-
-          </div>
-
-        </div>
-
-        <div className="flex gap-4 mt-10 flex-wrap">
-
-          {!editing ? (
-
-            <button
-              onClick={() => setEditing(true)}
-              className="bg-orange-400 hover:bg-orange-500 px-10 py-4 rounded-full text-black font-semibold text-lg"
-            >
-              Edit Profile
-            </button>
-
-          ) : (
-
-            <button
-              onClick={saveProfile}
-              className="bg-green-500 hover:bg-green-600 px-10 py-4 rounded-full text-black font-semibold text-lg"
-            >
-              Save Profile
-            </button>
-
-          )}
-
-        </div>
-
-      </div>
-
-    </div>
-
-  );
-
-}
-
-/* SUBSCRIBE PAGE */
-function SubscribePage() {
-
-  const navigate = useNavigate();
-
-  return (
-
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
-
-      <div className="bg-zinc-900 p-10 rounded-3xl max-w-xl w-full">
-
-        <button
-          onClick={() => navigate(-1)}
-          className="mb-8 text-orange-300 hover:text-orange-400 text-lg"
-        >
-          ← Back
-        </button>
-
-        <h1 className="text-5xl font-bold text-orange-300 mb-8">
-          Become a Subscriber
-        </h1>
-
-        <p className="text-gray-300 mb-10 text-lg">
-          Unlock unlimited reservations,
-          premium seating, and exclusive experiences.
-        </p>
-
-        <button className="w-full bg-orange-400 hover:bg-orange-500 px-10 py-5 rounded-full text-black font-semibold text-lg">
-          Subscribe Now
-        </button>
+        ))}
 
       </div>
 
@@ -525,42 +489,11 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
-  const logout = () => {
-
-    alert("You have been logged out.");
-
-    navigate("/login");
-
-  };
-
-  const categories = [
-
-    {
-      title: "Family Dinner",
-      image:
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop",
-    },
-
-    {
-      title: "Friends Hangout",
-      image:
-        "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1200&auto=format&fit=crop",
-    },
-
-    {
-      title: "Meet New People",
-      image:
-        "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1200&auto=format&fit=crop",
-    },
-
-  ];
-
   return (
 
     <div className="min-h-screen bg-black text-white">
 
-      {/* NAVBAR */}
-      <nav className="flex justify-between items-center p-6 bg-zinc-900 sticky top-0 z-50 flex-wrap gap-4">
+      <nav className="bg-zinc-900 p-6 flex justify-between items-center flex-wrap gap-4 sticky top-0 z-50">
 
         <Link
           to="/dashboard"
@@ -569,19 +502,32 @@ function Dashboard() {
           The Gatherly
         </Link>
 
-        <div className="flex gap-6 items-center flex-wrap">
+        <div className="flex gap-6 flex-wrap">
+
+          <Link to="/family-dinner">
+            Family Dinner
+          </Link>
+
+          <Link to="/friends-hangout">
+            Friends Hangout
+          </Link>
+
+          <Link to="/social-seating">
+            Meet New People
+          </Link>
 
           <Link to="/profile">
             Profile
           </Link>
 
-          <Link to="/subscribe">
-            Subscribe
-          </Link>
-
           <button
-            onClick={logout}
-            className="hover:text-orange-300"
+            onClick={() => {
+
+              alert("Logged out successfully.");
+
+              navigate("/login");
+
+            }}
           >
             Logout
           </button>
@@ -590,65 +536,18 @@ function Dashboard() {
 
       </nav>
 
-      {/* HERO */}
       <section className="text-center py-24 px-6">
 
-        <div className="bg-zinc-900 rounded-3xl max-w-5xl mx-auto p-10 shadow-2xl">
+        <h1 className="text-6xl font-bold text-orange-300 mb-8">
+          Welcome to The Gatherly
+        </h1>
 
-          <h1 className="text-6xl font-bold mb-8 text-orange-300">
-            Welcome to Gatherly
-          </h1>
-
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Curated venues, social experiences,
-            premium dining, and authentic connections.
-          </p>
-
-        </div>
+        <p className="text-gray-300 text-xl max-w-3xl mx-auto">
+          Discover curated venues, unforgettable
+          experiences, and meaningful connections.
+        </p>
 
       </section>
-
-      {/* CATEGORIES */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-
-        <div className="grid md:grid-cols-3 gap-10">
-
-          {categories.map((item, index) => (
-
-            <div
-              key={index}
-              className="bg-zinc-900 rounded-3xl overflow-hidden hover:scale-105 transition duration-300 shadow-2xl"
-            >
-
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-72 object-cover"
-              />
-
-              <div className="p-8">
-
-                <h3 className="text-3xl font-bold mb-4">
-                  {item.title}
-                </h3>
-
-                <button
-                  className="bg-orange-400 hover:bg-orange-500 px-8 py-3 rounded-full text-black font-semibold"
-                >
-                  Explore
-                </button>
-
-              </div>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </section>
-
-      <Footer />
 
     </div>
 
@@ -656,31 +555,60 @@ function Dashboard() {
 
 }
 
-/* SIMPLE INFO PAGE */
-function InfoPage({ title, content }) {
+/* PROFILE */
+function ProfilePage() {
 
   const navigate = useNavigate();
 
   return (
 
-    <div className="min-h-screen bg-black text-white px-6 py-20">
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
 
-      <div className="max-w-4xl mx-auto bg-zinc-900 rounded-3xl p-10">
+      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-3xl">
 
         <button
           onClick={() => navigate(-1)}
-          className="mb-8 text-orange-300 hover:text-orange-400 text-lg"
+          className="text-orange-300 mb-8"
         >
           ← Back
         </button>
 
-        <h1 className="text-5xl font-bold text-orange-300 mb-8">
-          {title}
+        <h1 className="text-5xl font-bold text-orange-300 mb-10">
+          My Profile
         </h1>
 
-        <p className="text-gray-300 leading-relaxed text-lg">
-          {content}
-        </p>
+        <div className="space-y-6">
+
+          <input
+            value="John Doe"
+            className="w-full p-5 rounded-2xl bg-zinc-800"
+          />
+
+          <input
+            value="johndoe@email.com"
+            className="w-full p-5 rounded-2xl bg-zinc-800"
+          />
+
+          <input
+            value="California, USA"
+            className="w-full p-5 rounded-2xl bg-zinc-800"
+          />
+
+          <input
+            value="+1 234 567 890"
+            className="w-full p-5 rounded-2xl bg-zinc-800"
+          />
+
+          <button
+            onClick={() =>
+              alert("Profile Updated Successfully")
+            }
+            className="bg-orange-400 hover:bg-orange-500 px-10 py-4 rounded-full text-black font-semibold"
+          >
+            Save Profile
+          </button>
+
+        </div>
 
       </div>
 
@@ -695,7 +623,7 @@ function Footer() {
 
   return (
 
-    <footer className="bg-zinc-950 text-gray-400 px-6 py-16 mt-20">
+    <footer className="bg-zinc-950 text-gray-400 px-6 py-16">
 
       <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
 
@@ -706,7 +634,7 @@ function Footer() {
           </h3>
 
           <p>
-            Premium social experiences and curated dining.
+            Curated social experiences and premium dining.
           </p>
 
         </div>
@@ -714,36 +642,12 @@ function Footer() {
         <div>
 
           <h4 className="text-white font-semibold mb-4">
-            Contact Us
+            Contact
           </h4>
 
-          <p>Phone: +1 234 567 890</p>
-          <p>Email: hello@gatherly.com</p>
+          <p>+1 234 567 890</p>
+          <p>hello@thegatherly.com</p>
           <p>California, USA</p>
-
-        </div>
-
-        <div>
-
-          <h4 className="text-white font-semibold mb-4">
-            Explore
-          </h4>
-
-          <div className="space-y-2 flex flex-col">
-
-            <Link to="/our-story">
-              Our Story
-            </Link>
-
-            <Link to="/terms">
-              Terms & Conditions
-            </Link>
-
-            <Link to="/faq">
-              FAQs
-            </Link>
-
-          </div>
 
         </div>
 
@@ -753,17 +657,17 @@ function Footer() {
             Socials
           </h4>
 
-          <div className="space-y-2 flex flex-col">
+          <div className="flex flex-col gap-2">
 
-            <a href="https://facebook.com" target="_blank">
+            <a href="https://facebook.com">
               Facebook
             </a>
 
-            <a href="https://instagram.com" target="_blank">
+            <a href="https://instagram.com">
               Instagram
             </a>
 
-            <a href="https://tiktok.com" target="_blank">
+            <a href="https://tiktok.com">
               TikTok
             </a>
 
@@ -771,12 +675,22 @@ function Footer() {
 
         </div>
 
+        <div>
+
+          <h4 className="text-white font-semibold mb-4">
+            Legal
+          </h4>
+
+          <p>Terms & Conditions</p>
+          <p>FAQs</p>
+          <p>Our Story</p>
+
+        </div>
+
       </div>
 
       <div className="text-center mt-16 border-t border-zinc-800 pt-8">
-
         © 2026 The Gatherly. All Rights Reserved.
-
       </div>
 
     </footer>
@@ -792,7 +706,7 @@ export default function App() {
 
     <Routes>
 
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<HomePage />} />
 
       <Route path="/login" element={<LoginPage />} />
 
@@ -800,39 +714,28 @@ export default function App() {
 
       <Route path="/dashboard" element={<Dashboard />} />
 
+      <Route
+        path="/family-dinner"
+        element={
+          <VenuePage title="Family Dinner Venues" />
+        }
+      />
+
+      <Route
+        path="/friends-hangout"
+        element={
+          <VenuePage title="Friends Hangout Venues" />
+        }
+      />
+
+      <Route
+        path="/social-seating"
+        element={
+          <VenuePage title="Meet New People" />
+        }
+      />
+
       <Route path="/profile" element={<ProfilePage />} />
-
-      <Route path="/subscribe" element={<SubscribePage />} />
-
-      <Route
-        path="/our-story"
-        element={
-          <InfoPage
-            title="Our Story"
-            content="The Gatherly was created to bring people together through curated dining and social experiences."
-          />
-        }
-      />
-
-      <Route
-        path="/terms"
-        element={
-          <InfoPage
-            title="Terms & Conditions"
-            content="By using The Gatherly, users agree to our reservation and membership policies."
-          />
-        }
-      />
-
-      <Route
-        path="/faq"
-        element={
-          <InfoPage
-            title="Frequently Asked Questions"
-            content="Find answers about reservations, memberships, payments, and social seating experiences."
-          />
-        }
-      />
 
     </Routes>
 
