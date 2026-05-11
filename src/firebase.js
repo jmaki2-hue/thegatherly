@@ -6,13 +6,13 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyAQ4StvFI5xpLFTW2bxy31cWTlw386fHf0",
-  authDomain: "the-gatherly.firebaseapp.com",
-  projectId: "the-gatherly",
-  storageBucket: "the-gatherly.firebasestorage.app",
-  messagingSenderId: "618554520546",
-  appId: "1:618554520546:web:9e7f3765ddb61120f57fbb",
-  measurementId: "G-TZNEKMY5NM"
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_ID",
+  appId: "YOUR_APP_ID"
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+export const auth = getAuth(app);
