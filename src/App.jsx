@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import {
   Routes,
-  Route,
+ Route,
   Link,
   useNavigate,
 } from "react-router-dom";
@@ -33,7 +33,7 @@ function LandingPage() {
           curated hangouts, and unforgettable connections.
         </p>
 
-        <div className="flex justify-center gap-6">
+        <div className="flex justify-center gap-6 flex-wrap">
 
           <Link
             to="/login"
@@ -67,8 +67,6 @@ function Dashboard() {
       title: "Family Dinner",
       image:
         "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop",
-      desc:
-        "Warm and cozy venues for family bonding.",
       path: "/family-dinner",
     },
 
@@ -76,8 +74,6 @@ function Dashboard() {
       title: "Friends Hangout",
       image:
         "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1200&auto=format&fit=crop",
-      desc:
-        "Reconnect with old friends in premium venues.",
       path: "/friends-hangout",
     },
 
@@ -85,8 +81,6 @@ function Dashboard() {
       title: "Meet New People",
       image:
         "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1200&auto=format&fit=crop",
-      desc:
-        "Meet strangers naturally through curated seating.",
       path: "/social-seating",
     },
   ];
@@ -96,7 +90,7 @@ function Dashboard() {
     <div className="min-h-screen bg-black text-white">
 
       {/* NAVBAR */}
-      <nav className="flex justify-between items-center p-6 bg-zinc-900 sticky top-0 z-50">
+      <nav className="flex justify-between items-center p-6 bg-zinc-900 sticky top-0 z-50 flex-wrap gap-4">
 
         <Link
           to="/dashboard"
@@ -105,7 +99,7 @@ function Dashboard() {
           The Gatherly
         </Link>
 
-        <div className="flex gap-6 items-center">
+        <div className="flex gap-6 items-center flex-wrap">
 
           <Link to="/profile">
             Profile
@@ -113,6 +107,10 @@ function Dashboard() {
 
           <Link to="/subscribe">
             Subscribe
+          </Link>
+
+          <Link to="/login">
+            Logout
           </Link>
 
         </div>
@@ -129,8 +127,8 @@ function Dashboard() {
           </h1>
 
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Explore curated social experiences,
-            restaurants, lounges, and premium venues.
+            Curated venues, social experiences,
+            premium dining, and authentic connections.
           </p>
 
         </div>
@@ -162,10 +160,6 @@ function Dashboard() {
                   {item.title}
                 </h3>
 
-                <p className="text-gray-300">
-                  {item.desc}
-                </p>
-
               </div>
 
             </Link>
@@ -175,6 +169,8 @@ function Dashboard() {
         </div>
 
       </section>
+
+      <Footer />
 
     </div>
 
@@ -199,8 +195,6 @@ function LoginPage() {
         email,
         password
       );
-
-      alert("Login successful!");
 
       navigate("/dashboard");
 
@@ -270,7 +264,7 @@ function LoginPage() {
           onClick={forgotPassword}
           className="mt-6 text-gray-400 hover:text-orange-300"
         >
-          Having trouble signing in? Forgot Password
+          Forgot Password?
         </button>
 
       </div>
@@ -281,7 +275,7 @@ function LoginPage() {
 
 }
 
-/* SIGN UP PAGE */
+/* SIGNUP PAGE */
 function SignupPage() {
 
   const navigate = useNavigate();
@@ -323,7 +317,7 @@ function SignupPage() {
         form.password
       );
 
-      alert("Account created successfully!");
+      alert("Account created!");
 
       navigate("/dashboard");
 
@@ -342,69 +336,26 @@ function SignupPage() {
       <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-2xl shadow-2xl">
 
         <h1 className="text-4xl font-bold text-orange-300 text-center mb-10">
-          Create Your Account
+          Create Account
         </h1>
 
         <div className="grid md:grid-cols-2 gap-4">
 
-          <input
-            name="name"
-            placeholder="Full Name"
-            className="p-4 rounded-xl text-black"
-            onChange={handleChange}
-          />
+          <input name="name" placeholder="Full Name" className="p-4 rounded-xl text-black" onChange={handleChange} />
 
-          <input
-            name="gender"
-            placeholder="Gender"
-            className="p-4 rounded-xl text-black"
-            onChange={handleChange}
-          />
+          <input name="gender" placeholder="Gender" className="p-4 rounded-xl text-black" onChange={handleChange} />
 
-          <input
-            type="date"
-            name="dob"
-            className="p-4 rounded-xl text-black"
-            onChange={handleChange}
-          />
+          <input type="date" name="dob" className="p-4 rounded-xl text-black" onChange={handleChange} />
 
-          <input
-            name="contact"
-            placeholder="Contact Number"
-            className="p-4 rounded-xl text-black"
-            onChange={handleChange}
-          />
+          <input name="contact" placeholder="Contact Number" className="p-4 rounded-xl text-black" onChange={handleChange} />
 
-          <input
-            name="address"
-            placeholder="Address"
-            className="p-4 rounded-xl text-black md:col-span-2"
-            onChange={handleChange}
-          />
+          <input name="address" placeholder="Address" className="p-4 rounded-xl text-black md:col-span-2" onChange={handleChange} />
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            className="p-4 rounded-xl text-black md:col-span-2"
-            onChange={handleChange}
-          />
+          <input type="email" name="email" placeholder="Email Address" className="p-4 rounded-xl text-black md:col-span-2" onChange={handleChange} />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="New Password"
-            className="p-4 rounded-xl text-black"
-            onChange={handleChange}
-          />
+          <input type="password" name="password" placeholder="New Password" className="p-4 rounded-xl text-black" onChange={handleChange} />
 
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Verify Password"
-            className="p-4 rounded-xl text-black"
-            onChange={handleChange}
-          />
+          <input type="password" name="confirmPassword" placeholder="Verify Password" className="p-4 rounded-xl text-black" onChange={handleChange} />
 
         </div>
 
@@ -412,7 +363,7 @@ function SignupPage() {
           onClick={signup}
           className="w-full mt-8 bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black font-semibold"
         >
-          Register Account
+          Register
         </button>
 
       </div>
@@ -423,23 +374,78 @@ function SignupPage() {
 
 }
 
-/* PROFILE PAGE */
+/* PROFILE */
 function ProfilePage() {
+
+  const [editing, setEditing] = useState(false);
+
+  const [profile, setProfile] = useState({
+    name: "John Doe",
+    email: "johndoe@email.com",
+    address: "California, USA",
+    contact: "+1 234 567 890",
+  });
+
+  const handleChange = (e) => {
+
+    setProfile({
+      ...profile,
+      [e.target.name]: e.target.value,
+    });
+
+  };
 
   return (
 
-    <div className="min-h-screen bg-black text-white p-10">
+    <div className="min-h-screen bg-black text-white px-6 py-20">
 
-      <h1 className="text-5xl font-bold text-orange-300 mb-10">
-        My Profile
-      </h1>
+      <div className="max-w-3xl mx-auto bg-zinc-900 rounded-3xl p-10 shadow-2xl">
 
-      <div className="bg-zinc-900 p-10 rounded-3xl max-w-3xl">
+        <h1 className="text-5xl font-bold text-orange-300 mb-10">
+          My Profile
+        </h1>
 
-        <p className="mb-4">Profile customization coming soon.</p>
+        <div className="space-y-6">
 
-        <button className="bg-orange-400 px-8 py-4 rounded-full text-black">
-          Upload Profile Picture
+          <input
+            name="name"
+            value={profile.name}
+            disabled={!editing}
+            onChange={handleChange}
+            className="w-full p-4 rounded-xl text-black"
+          />
+
+          <input
+            name="email"
+            value={profile.email}
+            disabled={!editing}
+            onChange={handleChange}
+            className="w-full p-4 rounded-xl text-black"
+          />
+
+          <input
+            name="address"
+            value={profile.address}
+            disabled={!editing}
+            onChange={handleChange}
+            className="w-full p-4 rounded-xl text-black"
+          />
+
+          <input
+            name="contact"
+            value={profile.contact}
+            disabled={!editing}
+            onChange={handleChange}
+            className="w-full p-4 rounded-xl text-black"
+          />
+
+        </div>
+
+        <button
+          onClick={() => setEditing(!editing)}
+          className="mt-8 bg-orange-400 hover:bg-orange-500 px-8 py-4 rounded-full text-black font-semibold"
+        >
+          {editing ? "Save Profile" : "Edit Profile"}
         </button>
 
       </div>
@@ -450,7 +456,7 @@ function ProfilePage() {
 
 }
 
-/* SUBSCRIBE PAGE */
+/* SUBSCRIBE */
 function SubscribePage() {
 
   return (
@@ -464,8 +470,7 @@ function SubscribePage() {
         </h1>
 
         <p className="text-gray-300 mb-10">
-          Subscribers enjoy unlimited reservations,
-          premium seating, and exclusive experiences.
+          Unlock unlimited reservations and exclusive venues.
         </p>
 
         <button className="bg-orange-400 hover:bg-orange-500 px-10 py-5 rounded-full text-black font-semibold">
@@ -480,79 +485,22 @@ function SubscribePage() {
 
 }
 
-/* VENUE PAGE */
-function VenuePage({ title }) {
-
-  const reserveSpot = () => {
-
-    const subscribed = false;
-
-    if (!subscribed) {
-
-      alert(
-        "You are not subscribed. Please enter payment details to continue."
-      );
-
-    } else {
-
-      alert("Reservation confirmed!");
-
-    }
-
-  };
+/* SIMPLE PAGES */
+function InfoPage({ title, content }) {
 
   return (
 
-    <div className="min-h-screen bg-black text-white p-10">
+    <div className="min-h-screen bg-black text-white px-6 py-20">
 
-      <Link
-        to="/dashboard"
-        className="bg-orange-400 text-black px-6 py-3 rounded-full inline-block mb-10"
-      >
-        Back Home
-      </Link>
+      <div className="max-w-4xl mx-auto bg-zinc-900 rounded-3xl p-10">
 
-      <h1 className="text-5xl font-bold mb-10">
-        {title}
-      </h1>
+        <h1 className="text-5xl font-bold text-orange-300 mb-8">
+          {title}
+        </h1>
 
-      <div className="grid md:grid-cols-3 gap-10">
-
-        {[1, 2, 3].map((item) => (
-
-          <div
-            key={item}
-            className="bg-zinc-900 rounded-3xl overflow-hidden shadow-xl"
-          >
-
-            <img
-              src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1200&auto=format&fit=crop"
-              alt="Venue"
-              className="w-full h-72 object-cover"
-            />
-
-            <div className="p-6">
-
-              <h2 className="text-2xl font-bold mb-4">
-                Premium Venue
-              </h2>
-
-              <p className="text-gray-300 mb-6">
-                Curated dining experience.
-              </p>
-
-              <button
-                onClick={reserveSpot}
-                className="w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black"
-              >
-                Reserve Spot
-              </button>
-
-            </div>
-
-          </div>
-
-        ))}
+        <p className="text-gray-300 leading-relaxed text-lg">
+          {content}
+        </p>
 
       </div>
 
@@ -562,6 +510,100 @@ function VenuePage({ title }) {
 
 }
 
+/* FOOTER */
+function Footer() {
+
+  return (
+
+    <footer className="bg-zinc-950 text-gray-400 px-6 py-16 mt-20">
+
+      <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
+
+        <div>
+
+          <h3 className="text-orange-300 text-2xl font-bold mb-4">
+            The Gatherly
+          </h3>
+
+          <p>
+            Premium social experiences and curated dining.
+          </p>
+
+        </div>
+
+        <div>
+
+          <h4 className="text-white font-semibold mb-4">
+            Contact Us
+          </h4>
+
+          <p>Phone: +1 234 567 890</p>
+          <p>Email: hello@gatherly.com</p>
+          <p>California, USA</p>
+
+        </div>
+
+        <div>
+
+          <h4 className="text-white font-semibold mb-4">
+            Explore
+          </h4>
+
+          <div className="space-y-2 flex flex-col">
+
+            <Link to="/our-story">Our Story</Link>
+
+            <Link to="/terms">
+              Terms & Conditions
+            </Link>
+
+            <Link to="/faq">
+              FAQs
+            </Link>
+
+          </div>
+
+        </div>
+
+        <div>
+
+          <h4 className="text-white font-semibold mb-4">
+            Socials
+          </h4>
+
+          <div className="space-y-2 flex flex-col">
+
+            <a href="https://facebook.com" target="_blank">
+              Facebook
+            </a>
+
+            <a href="https://instagram.com" target="_blank">
+              Instagram
+            </a>
+
+            <a href="https://tiktok.com" target="_blank">
+              TikTok
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="text-center mt-16 border-t border-zinc-800 pt-8">
+
+        © 2026 The Gatherly. All Rights Reserved.
+
+      </div>
+
+    </footer>
+
+  );
+
+}
+
+/* APP */
 export default function App() {
 
   return (
@@ -581,18 +623,33 @@ export default function App() {
       <Route path="/subscribe" element={<SubscribePage />} />
 
       <Route
-        path="/family-dinner"
-        element={<VenuePage title="Family Dinner Venues" />}
+        path="/our-story"
+        element={
+          <InfoPage
+            title="Our Story"
+            content="The Gatherly was created to bring people together through curated dining and social experiences."
+          />
+        }
       />
 
       <Route
-        path="/friends-hangout"
-        element={<VenuePage title="Friends Hangout Venues" />}
+        path="/terms"
+        element={
+          <InfoPage
+            title="Terms & Conditions"
+            content="By using The Gatherly, users agree to our reservation and membership policies."
+          />
+        }
       />
 
       <Route
-        path="/social-seating"
-        element={<VenuePage title="Meet New People" />}
+        path="/faq"
+        element={
+          <InfoPage
+            title="Frequently Asked Questions"
+            content="Find answers about reservations, memberships, payments, and social seating experiences."
+          />
+        }
       />
 
     </Routes>
