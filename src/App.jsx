@@ -1,8 +1,21 @@
-import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import Auth from "./Auth";
+import React, { useState } from "react";
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+
+import { auth } from "./firebase";
 
 function Home() {
+
   const categories = [
     {
       title: "Family Dinner",
@@ -35,19 +48,45 @@ function Home() {
   return (
     <div className="min-h-screen bg-black text-white">
 
-      <nav className="flex justify-between items-center p-6 bg-zinc-900">
+      {/* NAVBAR */}
+      <nav className="flex justify-between items-center p-6 bg-zinc-900 sticky top-0 z-50">
 
-        <Link to="/" className="text-3xl font-bold text-orange-300">
+        <Link
+          to="/"
+          className="text-3xl font-bold text-orange-300"
+        >
           The Gatherly
         </Link>
 
-        <div className="flex gap-6">
-          <a href="#categories">Categories</a>
-          <a href="#contact">Contact</a>
+        <div className="flex gap-6 items-center">
+
+          <a href="#categories" className="hover:text-orange-300">
+            Categories
+          </a>
+
+          <a href="#contact" className="hover:text-orange-300">
+            Contact
+          </a>
+
+          <Link
+            to="/login"
+            className="bg-zinc-800 px-5 py-2 rounded-full hover:bg-zinc-700 transition"
+          >
+            Login
+          </Link>
+
+          <Link
+            to="/signup"
+            className="bg-orange-400 text-black px-5 py-2 rounded-full hover:bg-orange-500 transition"
+          >
+            Sign Up
+          </Link>
+
         </div>
 
       </nav>
 
+      {/* HERO */}
       <section className="text-center py-24 px-6">
 
         <div className="bg-zinc-900 rounded-3xl max-w-5xl mx-auto p-10 shadow-2xl">
@@ -65,6 +104,7 @@ function Home() {
 
       </section>
 
+      {/* CATEGORIES */}
       <section
         id="categories"
         className="max-w-7xl mx-auto px-6 py-20"
@@ -100,7 +140,7 @@ function Home() {
                   {item.desc}
                 </p>
 
-                <button className="mt-8 w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full">
+                <button className="mt-8 w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black">
                   View Venues
                 </button>
 
@@ -114,12 +154,7 @@ function Home() {
 
       </section>
 
-      <section className="py-20 px-6">
-
-      <Auth />
-
-      </section>
-
+      {/* CONTACT */}
       <section
         id="contact"
         className="text-center py-20"
@@ -127,7 +162,7 @@ function Home() {
 
         <a href="mailto:eventsbyluna@gmail.com">
 
-          <button className="bg-orange-400 hover:bg-orange-500 px-10 py-5 rounded-full text-lg">
+          <button className="bg-orange-400 hover:bg-orange-500 px-10 py-5 rounded-full text-lg text-black">
             Reserve Through Email
           </button>
 
@@ -139,13 +174,180 @@ function Home() {
   );
 }
 
-function VenuePage({ title }) {
+/* LOGIN PAGE */
+function LoginPage() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const login = async () => {
+
+    try {
+
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      alert("Login successful!");
+
+      navigate("/");
+
+    } catch (error) {
+
+      alert(error.message);
+
+    }
+
+  };
+
+  const forgotPassword = async () => {
+
+    if (!email) {
+      alert("Enter your email first.");
+      return;
+    }
+
+    try {
+
+      await sendPasswordResetEmail(auth, email);
+
+      alert("Password reset email sent.");
+
+    } catch (error) {
+
+      alert(error.message);
+
+    }
+
+  };
+
   return (
+
+    <div className="min-h-screen bg-black flex justify-center items-center px-6">
+
+      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-md shadow-2xl">
+
+        <h1 className="text-4xl font-bold mb-8 text-center text-orange-300">
+          Login
+        </h1>
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full p-4 rounded-xl mb-4 text-black"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-4 rounded-xl mb-6 text-black"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button
+          onClick={login}
+          className="w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black font-semibold"
+        >
+          Login
+        </button>
+
+        <button
+          onClick={forgotPassword}
+          className="mt-6 text-gray-400 hover:text-orange-300 transition"
+        >
+          Having trouble signing in? Use Forgot Password
+        </button>
+
+      </div>
+
+    </div>
+
+  );
+}
+
+/* SIGN UP PAGE */
+function SignupPage() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const signup = async () => {
+
+    try {
+
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      alert("Account created!");
+
+      navigate("/");
+
+    } catch (error) {
+
+      alert(error.message);
+
+    }
+
+  };
+
+  return (
+
+    <div className="min-h-screen bg-black flex justify-center items-center px-6">
+
+      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-md shadow-2xl">
+
+        <h1 className="text-4xl font-bold mb-8 text-center text-orange-300">
+          Sign Up
+        </h1>
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full p-4 rounded-xl mb-4 text-black"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-4 rounded-xl mb-6 text-black"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button
+          onClick={signup}
+          className="w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black font-semibold"
+        >
+          Create Account
+        </button>
+
+      </div>
+
+    </div>
+
+  );
+}
+
+/* VENUE PAGE */
+function VenuePage({ title }) {
+
+  return (
+
     <div className="min-h-screen bg-black text-white p-10">
 
       <Link
         to="/"
-        className="bg-orange-400 px-6 py-3 rounded-full inline-block mb-10"
+        className="bg-orange-400 text-black px-6 py-3 rounded-full inline-block mb-10"
       >
         Back Home
       </Link>
@@ -179,7 +381,7 @@ function VenuePage({ title }) {
                 Curated social dining experience.
               </p>
 
-              <button className="w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full">
+              <button className="w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black">
                 Reserve Spot
               </button>
 
@@ -192,14 +394,21 @@ function VenuePage({ title }) {
       </div>
 
     </div>
+
   );
 }
 
 export default function App() {
+
   return (
+
     <Routes>
 
       <Route path="/" element={<Home />} />
+
+      <Route path="/login" element={<LoginPage />} />
+
+      <Route path="/signup" element={<SignupPage />} />
 
       <Route
         path="/family-dinner"
@@ -217,5 +426,6 @@ export default function App() {
       />
 
     </Routes>
+
   );
 }
