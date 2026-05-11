@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   Routes,
   Route,
@@ -14,7 +15,52 @@ import {
 
 import { auth } from "./firebase";
 
-function Home() {
+/* LANDING PAGE */
+function LandingPage() {
+
+  return (
+
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+
+      <div className="bg-zinc-900 p-12 rounded-3xl max-w-2xl text-center shadow-2xl">
+
+        <h1 className="text-6xl font-bold text-orange-300 mb-8">
+          The Gatherly
+        </h1>
+
+        <p className="text-gray-300 text-xl mb-10">
+          Meaningful dinners, social experiences,
+          curated hangouts, and unforgettable connections.
+        </p>
+
+        <div className="flex justify-center gap-6">
+
+          <Link
+            to="/login"
+            className="bg-orange-400 hover:bg-orange-500 px-10 py-4 rounded-full text-black font-semibold"
+          >
+            Login
+          </Link>
+
+          <Link
+            to="/signup"
+            className="bg-zinc-700 hover:bg-zinc-600 px-10 py-4 rounded-full"
+          >
+            Sign Up
+          </Link>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
+/* DASHBOARD */
+function Dashboard() {
 
   const categories = [
     {
@@ -22,7 +68,7 @@ function Home() {
       image:
         "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop",
       desc:
-        "Reserve warm and cozy venues for family dinners and celebrations.",
+        "Warm and cozy venues for family bonding.",
       path: "/family-dinner",
     },
 
@@ -31,7 +77,7 @@ function Home() {
       image:
         "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1200&auto=format&fit=crop",
       desc:
-        "Reconnect with old friends and enjoy relaxing café experiences.",
+        "Reconnect with old friends in premium venues.",
       path: "/friends-hangout",
     },
 
@@ -40,19 +86,20 @@ function Home() {
       image:
         "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1200&auto=format&fit=crop",
       desc:
-        "Join curated social tables and meet strangers naturally.",
+        "Meet strangers naturally through curated seating.",
       path: "/social-seating",
     },
   ];
 
   return (
+
     <div className="min-h-screen bg-black text-white">
 
       {/* NAVBAR */}
       <nav className="flex justify-between items-center p-6 bg-zinc-900 sticky top-0 z-50">
 
         <Link
-          to="/"
+          to="/dashboard"
           className="text-3xl font-bold text-orange-300"
         >
           The Gatherly
@@ -60,26 +107,12 @@ function Home() {
 
         <div className="flex gap-6 items-center">
 
-          <a href="#categories" className="hover:text-orange-300">
-            Categories
-          </a>
-
-          <a href="#contact" className="hover:text-orange-300">
-            Contact
-          </a>
-
-          <Link
-            to="/login"
-            className="bg-zinc-800 px-5 py-2 rounded-full hover:bg-zinc-700 transition"
-          >
-            Login
+          <Link to="/profile">
+            Profile
           </Link>
 
-          <Link
-            to="/signup"
-            className="bg-orange-400 text-black px-5 py-2 rounded-full hover:bg-orange-500 transition"
-          >
-            Sign Up
+          <Link to="/subscribe">
+            Subscribe
           </Link>
 
         </div>
@@ -92,12 +125,12 @@ function Home() {
         <div className="bg-zinc-900 rounded-3xl max-w-5xl mx-auto p-10 shadow-2xl">
 
           <h1 className="text-6xl font-bold mb-8 text-orange-300">
-            Meet. Dine. Connect.
+            Welcome to Gatherly
           </h1>
 
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Discover curated venues where families bond, friends reconnect,
-            and strangers become meaningful connections.
+            Explore curated social experiences,
+            restaurants, lounges, and premium venues.
           </p>
 
         </div>
@@ -105,14 +138,7 @@ function Home() {
       </section>
 
       {/* CATEGORIES */}
-      <section
-        id="categories"
-        className="max-w-7xl mx-auto px-6 py-20"
-      >
-
-        <h2 className="text-5xl font-bold text-center mb-16">
-          Explore Experiences
-        </h2>
+      <section className="max-w-7xl mx-auto px-6 py-20">
 
         <div className="grid md:grid-cols-3 gap-10">
 
@@ -136,13 +162,9 @@ function Home() {
                   {item.title}
                 </h3>
 
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-gray-300">
                   {item.desc}
                 </p>
-
-                <button className="mt-8 w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black">
-                  View Venues
-                </button>
 
               </div>
 
@@ -154,33 +176,19 @@ function Home() {
 
       </section>
 
-      {/* CONTACT */}
-      <section
-        id="contact"
-        className="text-center py-20"
-      >
-
-        <a href="mailto:eventsbyluna@gmail.com">
-
-          <button className="bg-orange-400 hover:bg-orange-500 px-10 py-5 rounded-full text-lg text-black">
-            Reserve Through Email
-          </button>
-
-        </a>
-
-      </section>
-
     </div>
+
   );
+
 }
 
 /* LOGIN PAGE */
 function LoginPage() {
 
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const navigate = useNavigate();
 
   const login = async () => {
 
@@ -194,7 +202,7 @@ function LoginPage() {
 
       alert("Login successful!");
 
-      navigate("/");
+      navigate("/dashboard");
 
     } catch (error) {
 
@@ -207,8 +215,10 @@ function LoginPage() {
   const forgotPassword = async () => {
 
     if (!email) {
+
       alert("Enter your email first.");
       return;
+
     }
 
     try {
@@ -227,11 +237,11 @@ function LoginPage() {
 
   return (
 
-    <div className="min-h-screen bg-black flex justify-center items-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6">
 
       <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-md shadow-2xl">
 
-        <h1 className="text-4xl font-bold mb-8 text-center text-orange-300">
+        <h1 className="text-4xl font-bold text-orange-300 text-center mb-8">
           Login
         </h1>
 
@@ -258,9 +268,9 @@ function LoginPage() {
 
         <button
           onClick={forgotPassword}
-          className="mt-6 text-gray-400 hover:text-orange-300 transition"
+          className="mt-6 text-gray-400 hover:text-orange-300"
         >
-          Having trouble signing in? Use Forgot Password
+          Having trouble signing in? Forgot Password
         </button>
 
       </div>
@@ -268,29 +278,54 @@ function LoginPage() {
     </div>
 
   );
+
 }
 
 /* SIGN UP PAGE */
 function SignupPage() {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
+  const [form, setForm] = useState({
+    name: "",
+    gender: "",
+    dob: "",
+    address: "",
+    contact: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+
+  };
+
   const signup = async () => {
+
+    if (form.password !== form.confirmPassword) {
+
+      alert("Passwords do not match.");
+      return;
+
+    }
 
     try {
 
       await createUserWithEmailAndPassword(
         auth,
-        email,
-        password
+        form.email,
+        form.password
       );
 
-      alert("Account created!");
+      alert("Account created successfully!");
 
-      navigate("/");
+      navigate("/dashboard");
 
     } catch (error) {
 
@@ -302,33 +337,82 @@ function SignupPage() {
 
   return (
 
-    <div className="min-h-screen bg-black flex justify-center items-center px-6">
+    <div className="min-h-screen bg-black flex items-center justify-center px-6 py-20">
 
-      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-md shadow-2xl">
+      <div className="bg-zinc-900 p-10 rounded-3xl w-full max-w-2xl shadow-2xl">
 
-        <h1 className="text-4xl font-bold mb-8 text-center text-orange-300">
-          Sign Up
+        <h1 className="text-4xl font-bold text-orange-300 text-center mb-10">
+          Create Your Account
         </h1>
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-4 rounded-xl mb-4 text-black"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="grid md:grid-cols-2 gap-4">
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-4 rounded-xl mb-6 text-black"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <input
+            name="name"
+            placeholder="Full Name"
+            className="p-4 rounded-xl text-black"
+            onChange={handleChange}
+          />
+
+          <input
+            name="gender"
+            placeholder="Gender"
+            className="p-4 rounded-xl text-black"
+            onChange={handleChange}
+          />
+
+          <input
+            type="date"
+            name="dob"
+            className="p-4 rounded-xl text-black"
+            onChange={handleChange}
+          />
+
+          <input
+            name="contact"
+            placeholder="Contact Number"
+            className="p-4 rounded-xl text-black"
+            onChange={handleChange}
+          />
+
+          <input
+            name="address"
+            placeholder="Address"
+            className="p-4 rounded-xl text-black md:col-span-2"
+            onChange={handleChange}
+          />
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            className="p-4 rounded-xl text-black md:col-span-2"
+            onChange={handleChange}
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="New Password"
+            className="p-4 rounded-xl text-black"
+            onChange={handleChange}
+          />
+
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Verify Password"
+            className="p-4 rounded-xl text-black"
+            onChange={handleChange}
+          />
+
+        </div>
 
         <button
           onClick={signup}
-          className="w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black font-semibold"
+          className="w-full mt-8 bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black font-semibold"
         >
-          Create Account
+          Register Account
         </button>
 
       </div>
@@ -336,17 +420,93 @@ function SignupPage() {
     </div>
 
   );
+
+}
+
+/* PROFILE PAGE */
+function ProfilePage() {
+
+  return (
+
+    <div className="min-h-screen bg-black text-white p-10">
+
+      <h1 className="text-5xl font-bold text-orange-300 mb-10">
+        My Profile
+      </h1>
+
+      <div className="bg-zinc-900 p-10 rounded-3xl max-w-3xl">
+
+        <p className="mb-4">Profile customization coming soon.</p>
+
+        <button className="bg-orange-400 px-8 py-4 rounded-full text-black">
+          Upload Profile Picture
+        </button>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
+/* SUBSCRIBE PAGE */
+function SubscribePage() {
+
+  return (
+
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+
+      <div className="bg-zinc-900 p-10 rounded-3xl max-w-xl text-center">
+
+        <h1 className="text-5xl font-bold text-orange-300 mb-8">
+          Become a Subscriber
+        </h1>
+
+        <p className="text-gray-300 mb-10">
+          Subscribers enjoy unlimited reservations,
+          premium seating, and exclusive experiences.
+        </p>
+
+        <button className="bg-orange-400 hover:bg-orange-500 px-10 py-5 rounded-full text-black font-semibold">
+          Subscribe Now
+        </button>
+
+      </div>
+
+    </div>
+
+  );
+
 }
 
 /* VENUE PAGE */
 function VenuePage({ title }) {
+
+  const reserveSpot = () => {
+
+    const subscribed = false;
+
+    if (!subscribed) {
+
+      alert(
+        "You are not subscribed. Please enter payment details to continue."
+      );
+
+    } else {
+
+      alert("Reservation confirmed!");
+
+    }
+
+  };
 
   return (
 
     <div className="min-h-screen bg-black text-white p-10">
 
       <Link
-        to="/"
+        to="/dashboard"
         className="bg-orange-400 text-black px-6 py-3 rounded-full inline-block mb-10"
       >
         Back Home
@@ -378,10 +538,13 @@ function VenuePage({ title }) {
               </h2>
 
               <p className="text-gray-300 mb-6">
-                Curated social dining experience.
+                Curated dining experience.
               </p>
 
-              <button className="w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black">
+              <button
+                onClick={reserveSpot}
+                className="w-full bg-orange-400 hover:bg-orange-500 py-4 rounded-full text-black"
+              >
                 Reserve Spot
               </button>
 
@@ -396,6 +559,7 @@ function VenuePage({ title }) {
     </div>
 
   );
+
 }
 
 export default function App() {
@@ -404,11 +568,17 @@ export default function App() {
 
     <Routes>
 
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<LandingPage />} />
 
       <Route path="/login" element={<LoginPage />} />
 
       <Route path="/signup" element={<SignupPage />} />
+
+      <Route path="/dashboard" element={<Dashboard />} />
+
+      <Route path="/profile" element={<ProfilePage />} />
+
+      <Route path="/subscribe" element={<SubscribePage />} />
 
       <Route
         path="/family-dinner"
@@ -428,4 +598,5 @@ export default function App() {
     </Routes>
 
   );
+
 }
