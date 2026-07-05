@@ -10,7 +10,7 @@ export default function Navbar() {
           to="/"
           className="text-3xl font-bold text-[#24324a]"
         >
-          The Gatherly
+          Shift Enders
         </Link>
 
         <div className="hidden md:flex items-center gap-8">

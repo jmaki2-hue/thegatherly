@@ -1,8 +1,304 @@
-import { Link } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  doc,
+  getDoc,
+  addDoc,
+  updateDoc,
+  increment,
+  collection,
+  query,
+  where,
+  getDocs,
+  serverTimestamp,
+} from "firebase/firestore";
+
+import {
+  auth,
+  db,
+} from "../firebase/firebase";
+
 export default function EventDetails() {
+
+  const { id } = useParams();
+
+  const navigate = useNavigate();
+
+  const [event, setEvent] =
+    useState(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  useEffect(() => {
+
+    loadEvent();
+
+  }, []);
+
+  const loadEvent = async () => {
+
+    try {
+
+      const snap = await getDoc(
+
+        doc(
+          db,
+          "scheduledEvents",
+          id
+        )
+
+      );
+
+      if (snap.exists()) {
+
+        setEvent({
+
+          id: snap.id,
+
+          ...snap.data(),
+
+        });
+
+      }
+
+    }
+
+    catch (err) {
+
+      console.log(err);
+
+    }
+
+    finally {
+
+      setLoading(false);
+
+    }
+
+  };
+
+  useEffect(() => {
+
+  loadEvent();
+
+}, []);
+
+const loadEvent = async () => {
+
+  try {
+
+    const snap = await getDoc(
+
+      doc(
+        db,
+        "scheduledEvents",
+        id
+      )
+
+    );
+
+    if (snap.exists()) {
+
+      setEvent({
+
+        id: snap.id,
+
+        ...snap.data(),
+
+      });
+
+    }
+
+  }
+
+  catch (err) {
+
+    console.log(err);
+
+  }
+
+  finally {
+
+    setLoading(false);
+
+  }
+
+};
+
+  const reserveEvent = async () => {
+
+  try {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+
+      alert("Please log in.");
+
+      return;
+
+    }
+
+    // Check if already reserved
+
+    const existingReservation = await getDocs(
+
+      query(
+
+        collection(db, "reservations"),
+
+        where("userId", "==", user.uid),
+
+        where("eventId", "==", event.id)
+
+      )
+
+    );
+
+    if (!existingReservation.empty) {
+
+      alert("You have already reserved this event.");
+
+      return;
+
+    }
+
+    // Check capacity
+
+    if (
+
+      (event.currentParticipants || 0) >=
+
+      (event.maxParticipants || 0)
+
+    ) {
+
+      alert("This event is already full.");
+
+      return;
+
+    }
+
+    // Create reservation
+
+    await addDoc(
+
+      collection(db, "reservations"),
+
+      {
+
+        userId: user.uid,
+
+        eventId: event.id,
+
+        venueName: event.venueName,
+
+        category: event.category,
+
+        eventDate: event.eventDate,
+
+        eventTime: event.eventTime,
+
+        location: event.location,
+
+        status: "active",
+
+        createdAt: serverTimestamp(),
+
+      }
+
+    );
+
+    // Update participant count
+
+    await updateDoc(
+
+      doc(
+
+        db,
+
+        "scheduledEvents",
+
+        event.id
+
+      ),
+
+      {
+
+        currentParticipants:
+
+          increment(1),
+
+      }
+
+    );
+
+    alert("Reservation successful!");
+
+    navigate("/my-reservations");
+
+  }
+
+  catch (err) {
+
+    console.log(err);
+
+    alert("Unable to reserve event.");
+
+  }
+
+};
+
+  if (loading) {
+
+  return (
+
+    <div className="min-h-screen flex items-center justify-center">
+
+      <h2 className="text-3xl font-bold">
+
+        Loading Event...
+
+      </h2>
+
+    </div>
+
+  );
+
+}
+
+if (!event) {
+
+  return (
+
+    <div className="min-h-screen flex items-center justify-center">
+
+      <h2 className="text-3xl font-bold">
+
+        Event Not Found
+
+      </h2>
+
+    </div>
+
+  );
+
+}
+
+
   return (
     <div className="min-h-screen bg-[#fdfaf6] pb-24">
 
@@ -27,7 +323,7 @@ export default function EventDetails() {
             <div className="flex flex-wrap gap-3 mb-4">
 
               <span className="bg-[#f5b54a]/20 text-[#24324a] px-4 py-2 rounded-full font-semibold">
-                Coffee Meetup
+                {event.category}
               </span>
 
               <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full font-semibold">
@@ -37,13 +333,11 @@ export default function EventDetails() {
             </div>
 
             <h1 className="text-5xl font-bold text-[#24324a]">
-              Weekend Coffee Meetup
+              {event.venueName}
             </h1>
 
             <p className="text-gray-500 text-lg mt-4">
-              Meet new people in a relaxed setting over coffee and
-              conversation. Perfect for building friendships and
-              meaningful connections.
+              Join fellow Shift Enders for another unforgettable experience.
             </p>
 
           </div>
@@ -67,19 +361,21 @@ export default function EventDetails() {
               <div className="space-y-4 text-gray-600">
 
                 <p>
-                  📅 Saturday, August 23, 2026
+                  📅 {event.eventDate}
                 </p>
 
                 <p>
-                  🕙 10:00 AM
+                  🕙 {event.eventTime}
                 </p>
 
                 <p>
-                  📍 Cavite - Dasmarinas
+                  📍 {event.location}
                 </p>
 
                 <p>
-                  👥 12 Spots Available
+                  👥 {(event.maxParticipants || 0) -
+ (event.currentParticipants || 0)}
+ Spots Remaining
                 </p>
 
               </div>
@@ -138,10 +434,13 @@ export default function EventDetails() {
               </p>
 
               <button
-                className="w-full mt-8 h-14 bg-[#f5b54a] text-[#24324a] rounded-2xl font-bold text-lg"
-              >
-                Reserve Spot
-              </button>
+  onClick={reserveEvent}
+  className="w-full mt-8 h-14 bg-[#f5b54a] text-[#24324a] rounded-2xl font-bold text-lg hover:bg-[#efaa2f] transition"
+>
+
+  Reserve Spot
+
+</button>
 
               <Link
                 to="/events"

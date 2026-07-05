@@ -73,13 +73,13 @@ function App() {
       />
 
       <Route
-        path="/event-details"
-        element={
-          <ProtectedRoute>
-            <EventDetails />
-          </ProtectedRoute>
-        }
-      />
+  path="/event/:id"
+  element={
+    <ProtectedRoute>
+      <EventDetails />
+    </ProtectedRoute>
+  }
+/>
 
       {/* Firebase Test */}
 
