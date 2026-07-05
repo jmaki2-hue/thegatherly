@@ -44,53 +44,6 @@ export default function EventDetails() {
 
   useEffect(() => {
 
-    loadEvent();
-
-  }, []);
-
-  const loadEvent = async () => {
-
-    try {
-
-      const snap = await getDoc(
-
-        doc(
-          db,
-          "scheduledEvents",
-          id
-        )
-
-      );
-
-      if (snap.exists()) {
-
-        setEvent({
-
-          id: snap.id,
-
-          ...snap.data(),
-
-        });
-
-      }
-
-    }
-
-    catch (err) {
-
-      console.log(err);
-
-    }
-
-    finally {
-
-      setLoading(false);
-
-    }
-
-  };
-
-  useEffect(() => {
 
   loadEvent();
 
